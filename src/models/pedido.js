@@ -221,4 +221,48 @@ export class ModeloPedido {
       }
     }
   }
+
+  static async registrarPedidoDomicilio (idCliente, descuento, productos) {
+    ModeloPedido.asociar()
+    try {
+      const resultado = await sequelize.query(
+    `DECLARE @NuevoID INT;
+    EXEC set_RegistrarPedidoDomicilio
+    @idCliente = :idCliente,
+    @descuento = :descuento,
+    @NuevoID = @NuevoID OUTPUT;
+
+    SELECT @NuevoID AS nuevoPedidoID;`,
+    {
+      replacements: { idCliente, descuento },
+      type: sequelize.QueryTypes.SELECT
+    })
+      const idPedido = resultado[0].nuevoPedidoID
+      for (const producto of productos) {
+        console.log('Producto:', producto)
+        await this.DetallePedido.create({
+          idPedido,
+          idProducto: producto.id,
+          cantidad: producto.cantidad,
+          precio: producto.precio
+        })
+
+        for (const ingrediente of producto.exclusiones) {
+          await this.ExclusionIngrediente.create({
+            idPedido,
+            idProducto: producto.id,
+            idIngrediente: ingrediente.idIngrediente
+          })
+        }
+      }
+
+      return { message: 'Pedido registrado correctamente' }
+    } catch (error) {
+      console.error('Error detallado:', error) // Para debug
+      return {
+        error: 'Error al registrar el pedido',
+        detalles: error.message
+      }
+    }
+  }
 }

@@ -20,6 +20,6 @@ export const crearRutasPedido = ({ modeloPedido, modeloBitacora }) => {
   // Completar pedido, restringido al cocinero
   // crearRutasPedido.patch('/completar/:id', controladorPedido.completarPedido)
   // Registrar pedido a domicilio, restringido a solo clientes
-  crearRutasPedido.get('/registrarPedidoDomicilio/:idCliente', controladorPedido.registrarPedidoDomicilio)
+  crearRutasPedido.post('/registrarPedidoDomicilio/:idCliente', controladorPedido.registrarPedidoDomicilio)
   return crearRutasPedido
 }

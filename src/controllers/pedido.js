@@ -39,10 +39,12 @@ export class ControladorPedido {
   // registrarPedidoDomicilio
   registrarPedidoDomicilio = async (req, res) => {
     const { idCliente } = req.params
-    const { descuento } = req.body.descuento
+    const { descuento } = req.body
+    console.log(descuento)
     const resultado = await this.ModeloPedido.registrarPedidoDomicilio(idCliente, descuento, req.body.productos)
     if (resultado.error) return res.status(400).json({ error: resultado.error, detalles: resultado.detalles })
     const autor = extraerUsuarioDesdeToken(req)
+  console.log(autor)
     if (autor) {
       await this.ModeloBitacora.registrarBitacora({
         usuario: autor,

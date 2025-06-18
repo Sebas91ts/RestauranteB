@@ -18,9 +18,14 @@ export const definicionBitacora = {
     type: DataTypes.STRING(150),
     allowNull: true
   },
-  fecha_hora: {
-    type: DataTypes.DATE,
-    allowNull: false,
+  fecha: {
+    type: DataTypes.DATEONLY,
+    allowNull: true, // puede estar vacío porque SQL Server lo completa por defecto
+    defaultValue: DataTypes.NOW
+  },
+  hora: {
+    type: DataTypes.TIME,
+    allowNull: true, // puede estar vacío porque SQL Server lo completa por defecto
     defaultValue: DataTypes.NOW
   },
   ip: {
