@@ -50,6 +50,10 @@ export const CreateApp = async ({
 
   db()
 
+  app.get('/', (req, res) => {
+    res.send('¡Servidor activo en Render!')
+  })
+
   app.use('/auth', crearAuthRutas({ modeloAuth }))
   app.use('/user', crearRutaUsuarios({ modeloUsuario, modeloBitacora })) // Hecho
   app.use('/admin', crearRutaAdministrador({ modeloAdministrador, token, modeloBitacora }))
