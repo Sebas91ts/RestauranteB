@@ -40,7 +40,7 @@ export const CreateApp = async ({
   modeloAuth.token = token
 
   app.use(cors({
-    origin: 'https://restaurante-f-nine.vercel.app/',
+    origin: 'https://restaurante-f-nine.vercel.app',
     credentials: true
   }))
 
