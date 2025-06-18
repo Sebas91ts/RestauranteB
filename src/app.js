@@ -39,14 +39,13 @@ export const CreateApp = async ({
   const token = new Token(PALABRA_SECRETA)
   modeloAuth.token = token
 
-  app.use(cookieParser())
-  app.use(json())
-  app.use(express.json())
-
   app.use(cors({
     origin: 'https://restaurante-f-nine.vercel.app/',
     credentials: true
   }))
+
+  app.use(cookieParser())
+  app.use(json())
 
   db()
 
