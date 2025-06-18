@@ -1,16 +1,17 @@
 export const autenticacion = (token) => {
   return (req, res, next) => {
     try {
-      const tokenCookie = req.cookies.access_token
-      console.log(token)
-      if (!tokenCookie) {
+      const authHeader = req.headers.authorization
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ error: 'Acceso no autorizado' })
       }
-      const decodificacion = token.verificarToken(tokenCookie)
+
+      const tokenBearer = authHeader.split(' ')[1]
+      const decodificacion = token.verificarToken(tokenBearer)
       req.user = decodificacion
       next()
     } catch (error) {
-      return res.status(403).json({ error: 'token invalido o expirado' })
+      return res.status(403).json({ error: 'Token inválido o expirado' })
     }
   }
 }
